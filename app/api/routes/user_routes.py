@@ -1,8 +1,12 @@
 from flask import Blueprint, request, jsonify
+from app.api.schemas.user_schemas import UserLoginSchema, UserRegisterSchema, UserUpdateSchema
 from app.api.services import user_service
 import jwt
 import os
 from datetime import datetime, timedelta,timezone
+
+from app.api.utils.jwt_utils import jwt_required
+from app.api.utils.validation import validate
 
 # Initializing blueprint
 user_bp = Blueprint("user_bp", __name__)
@@ -13,6 +17,7 @@ JWT_EXPIRATION_MINUTES = 30
 
 # Registering new user
 @user_bp.route("/users/register", methods=["POST"])
+@validate(UserRegisterSchema)
 def register():
     data = request.get_json()
     required_fields = ["username", "email", "password"]
@@ -36,6 +41,7 @@ def register():
 
 # Login
 @user_bp.route("/users/login", methods=["POST"])
+@validate(UserLoginSchema)
 def login():
     data = request.get_json()
     if not data or not data.get("email") or not data.get("password"):
@@ -60,6 +66,7 @@ def login():
 
 # Getting user by ID
 @user_bp.route("/users/<int:user_id>", methods=["GET"])
+@jwt_required
 def get_user(user_id):
     user = user_service.get_user(user_id)
     if not user:
@@ -69,6 +76,8 @@ def get_user(user_id):
 
 # Updating user
 @user_bp.route("/users/<int:user_id>", methods=["PUT"])
+@jwt_required
+@validate(UserUpdateSchema)
 def update_user(user_id):
     data = request.get_json()
     updated_user = user_service.update_user(
@@ -86,6 +95,7 @@ def update_user(user_id):
 
 # Deleting user
 @user_bp.route("/users/<int:user_id>", methods=["DELETE"])
+@jwt_required
 def delete_user(user_id):
     success = user_service.delete_user(user_id)
     if not success:
