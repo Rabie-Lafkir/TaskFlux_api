@@ -1,0 +1,50 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Flask environment files
+.env
+
+# Database backups
+*.sqlite3
+*.db
+
+# Logs
+*.log
+
+# Editor configs
+.vscode/
+.idea/
+*.swp
+
+# macOS metadata
+.DS_Store
+
+# React (once you add TaskFlux_ui)
+node_modules/
+TaskFlux_ui/dist/
+TaskFlux_ui/.vite/
+
+# npm / yarn lock files
+package-lock.json
+yarn.lock
+
+# coverage tools
+coverage/
+htmlcov/
+
+# pytest cache
+.pytest_cache/
+
+# build artifacts
+build/
+dist/
+
+# any docker volumes if you use them later
+*.pid
+
+# Misc
+*.bak
