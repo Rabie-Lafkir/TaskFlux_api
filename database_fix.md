@@ -4,7 +4,7 @@ This file documents all the steps and fixes applied on the PostgreSQL database f
 
 ---
 
-## 1️⃣ Create the database and user
+## 1. Create the database and user
 
 ```sql
 CREATE DATABASE taskflux;
@@ -14,7 +14,7 @@ GRANT ALL PRIVILEGES ON DATABASE taskflux TO taskflux_user;
 
 ---
 
-## 2️⃣ Connect to taskflux database
+## 2. Connect to taskflux database
 
 ```sql
 CREATE DATABASE taskflux;
@@ -24,7 +24,7 @@ GRANT ALL PRIVILEGES ON DATABASE taskflux TO taskflux_user;
 
 ---
 
-## 3️⃣ Create the tables
+## 3. Create the tables
 
 ```sql
 -- users table
@@ -67,7 +67,7 @@ CREATE TABLE tasks (
 
 ---
 
-## 4️⃣ Grant table privileges
+## 4. Grant table privileges
 
 ```sql
 GRANT ALL PRIVILEGES ON TABLE users TO taskflux_user;
@@ -77,7 +77,7 @@ GRANT ALL PRIVILEGES ON TABLE tasks TO taskflux_user;
 
 ---
 
-## 5️⃣ Grant privileges on sequences (for SERIAL columns)
+## 5. Grant privileges on sequences (for SERIAL columns)
 
 ```sql
 GRANT USAGE, SELECT ON SEQUENCE users_id_seq TO taskflux_user;
@@ -87,7 +87,7 @@ GRANT USAGE, SELECT ON SEQUENCE tasks_id_seq TO taskflux_user;
 
 ---
 
-## 6️⃣ Optional - allow default privileges for future tables/sequences
+## 6. Optional - allow default privileges for future tables/sequences
 
 ```sql
 ALTER DEFAULT PRIVILEGES IN SCHEMA public
@@ -99,7 +99,7 @@ GRANT USAGE, SELECT ON SEQUENCES TO taskflux_user;
 
 ---
 
-## 7️⃣ .env configuration
+## 7. .env configuration
 
 ```env
 DB_HOST=localhost
@@ -112,7 +112,7 @@ FLASK_SECRET_KEY=supersecretkey
 
 ---
 
-## 8️⃣ Troubleshooting log
+## 8. Troubleshooting log
 
 * Fixed `permission denied for table users` by granting table privileges
 * Fixed `permission denied for sequence users_id_seq` by granting sequence usage
@@ -121,13 +121,24 @@ FLASK_SECRET_KEY=supersecretkey
 
 ---
 
-## 9️⃣ How to connect with pgAdmin
+## 9. How to connect with pgAdmin
 
 * connect as `postgres`
 * manage roles and databases visually
 * connect to `taskflux` as `taskflux_user` for testing
 
 ---
+
+---
+
+## 10. Project table privileges
+
+When testing the `projects` CRUD, the following privileges were required:
+
+```sql
+GRANT ALL PRIVILEGES ON TABLE projects TO taskflux_user;
+GRANT USAGE, SELECT ON SEQUENCE projects_id_seq TO taskflux_user;
+
 
 
 
