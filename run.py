@@ -16,8 +16,12 @@ app.config["SECRET_KEY"] = os.getenv("FLASK_SECRET_KEY")
 # Importing and registering application routes
 from app.api.routes.user_routes import user_bp
 app.register_blueprint(user_bp, url_prefix="/api")
+
 from app.api.routes.project_routes import project_bp
 app.register_blueprint(project_bp, url_prefix="/api")
+
+from app.api.routes.task_routes import task_bp
+app.register_blueprint(task_bp, url_prefix="/api")
 
 
 # Handling graceful shutdown
