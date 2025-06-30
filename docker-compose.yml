@@ -1,0 +1,29 @@
+services:
+  db:
+    image: postgres:17
+    restart: always
+    environment:
+      POSTGRES_DB: taskflux
+      POSTGRES_USER: taskflux_user
+      POSTGRES_PASSWORD: taskflux2025
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: taskflux
+      DB_USER: taskflux_user
+      DB_PASSWORD: taskflux2025
+      FLASK_SECRET_KEY: efa914e1a1e9396fe7cd65a23fdd2318314a6afa6d6f120a0ad1a621427beeda
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
