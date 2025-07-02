@@ -3,12 +3,17 @@ from dotenv import load_dotenv
 import os
 from app.api.utils.error_handlers import register_error_handlers
 from app.db import close_pool
+from flask_cors import CORS
 
 # Loading environment variables from .env
 load_dotenv()
 
 # Creating Flask app
 app = Flask(__name__)
+
+# Enable CORS
+CORS(app, resources={r"/api/*": {"origins": "*"}})
+
 register_error_handlers(app)
 
 #  Setting up secret key
